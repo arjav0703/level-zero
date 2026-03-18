@@ -5,3 +5,4 @@ edition = "2024"
 
 [dependencies]
 ratzilla = "0.3.0"
+tui-big-text = "0.8.2"
