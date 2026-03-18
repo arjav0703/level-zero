@@ -1,8 +1,8 @@
 use ratzilla::ratatui::{
-    Frame,
     layout::{Constraint, Direction, Layout},
     style::Style,
     style::Stylize,
+    Frame,
 };
 use tui_big_text::{BigText, PixelSize};
 

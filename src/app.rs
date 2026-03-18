@@ -1,4 +1,4 @@
-use ratzilla::{WebGl2Backend, WebRenderer, event::KeyCode, ratatui::Terminal};
+use ratzilla::{event::KeyCode, ratatui::Terminal, WebGl2Backend, WebRenderer};
 
 #[derive(Debug, Clone, Default)]
 pub struct App {}
