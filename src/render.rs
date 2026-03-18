@@ -1,20 +1,23 @@
 use ratzilla::ratatui::{
-    layout::{Constraint, Direction, Layout},
-    style::Style,
-    style::Stylize,
     Frame,
+    // layout::{Constraint, Direction, Layout},
+    prelude::*,
+    style::{Style, Stylize},
+    widgets::Clear,
 };
+use tachyonfx::{Duration, Effect, EffectRenderer};
 use tui_big_text::{BigText, PixelSize};
 
 use super::App;
 
 impl App {
-    pub fn render(&mut self, frame: &mut Frame) {
-        let chunks = Layout::new(
-            Direction::Vertical,
-            [Constraint::Percentage(80), Constraint::Percentage(20)],
-        )
-        .split(frame.area());
+    pub fn render(&mut self, frame: &mut Frame, effect: &mut Effect) {
+        Clear.render(frame.area(), frame.buffer_mut());
+        // let chunks = Layout::new(
+        //     Direction::Vertical,
+        //     [Constraint::Percentage(80), Constraint::Percentage(20)],
+        // )
+        // .split(frame.area());
 
         let big_text = BigText::builder()
             .alignment(ratzilla::ratatui::layout::HorizontalAlignment::Center)
@@ -26,6 +29,13 @@ impl App {
                 "~~~~~".light_blue().into(),
             ])
             .build();
-        frame.render_widget(big_text, chunks[0]);
+
+        let area = frame.area();
+
+        frame.render_widget(big_text, area);
+
+        if effect.running() {
+            frame.render_effect(effect, area, Duration::from_millis(100));
+        }
     }
 }

@@ -18,7 +18,7 @@ fn main() -> io::Result<()> {
 
     let backend_options = WebGl2BackendOptions::new().size((width, height * 2)); // 200vh = 2 * viewport height
     let backend = WebGl2Backend::new_with_options(backend_options)?;
-    let mut terminal = Terminal::new(backend)?;
+    let terminal = Terminal::new(backend)?;
 
     app.run(terminal);
 

@@ -5,4 +5,5 @@ edition = "2024"
 
 [dependencies]
 ratzilla = "0.3.0"
+tachyonfx = { version = "0.25.0", default-features = false, features = ["wasm"] }
 tui-big-text = "0.8.2"
