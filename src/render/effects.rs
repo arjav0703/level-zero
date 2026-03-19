@@ -31,7 +31,7 @@ pub fn draw_gauges(frame: &mut Frame, app: &mut App, area: Rect) {
         .block(Block::new().title("Compiling:"))
         .style(Style::default().fg(Color::LightGreen))
         .data(&app.sparkline.points)
-        .bar_set(symbols::bar::NINE_LEVELS);
+        .bar_set(symbols::bar::THREE_LEVELS);
     frame.render_widget(sparkline, chunks[1]);
 
     let line_gauge = LineGauge::default()
@@ -98,7 +98,7 @@ pub fn draw_horizontal_barchart(frame: &mut Frame, app: &mut App, area: Rect) {
 //     wave::{Modulator, Oscillator, WaveLayer},
 // };
 //
-use tachyonfx::fx;
+use tachyonfx::{Interpolation, Motion, fx};
 
 pub fn get_wave_fx(content_area: Rect) -> tachyonfx::Effect {
     // let style = Style::default()
@@ -128,5 +128,8 @@ pub fn get_wave_fx(content_area: Rect) -> tachyonfx::Effect {
     //     ])
     //     .with_area(content_area),
     // )
-    fx::explode(10.0, 3.0, 800).with_area(content_area)
+    // fx::explode(10.0, 3.0, 800).with_area(content_area)
+    let c = Color::from_u32(0x1d2021);
+    let timer = (3000, Interpolation::Linear);
+    fx::slide_in(Motion::UpToDown, 10, 0, c, timer)
 }
