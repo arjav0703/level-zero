@@ -1,17 +1,42 @@
+use ratzilla::ratatui::widgets::{Paragraph, Wrap};
+
 use super::*;
 
 pub fn render_section_two(area: Rect, app: &mut App, frame: &mut Frame) {
     let vert_div = Layout::new(
         Direction::Vertical,
         [
+            Constraint::Percentage(10),
             Constraint::Percentage(20),
-            Constraint::Percentage(60),
-            Constraint::Percentage(20),
+            Constraint::Percentage(65),
+            Constraint::Percentage(5),
         ],
     )
     .split(area);
 
-    frame.render_widget(get_big_faq(), vert_div[0]);
+    frame.render_widget(get_big_faq(), vert_div[1]);
+
+    let div = Layout::new(
+        Direction::Horizontal,
+        [
+            Constraint::Percentage(33),
+            Constraint::Percentage(34),
+            Constraint::Percentage(33),
+        ],
+    )
+    .split(vert_div[2]);
+
+    let project_block = Block::bordered().title("What can I build?");
+    frame.render_widget(&project_block, div[0]);
+
+    let inner_area = project_block.inner(div[0]);
+    frame.render_widget(get_project_ideas_text(), inner_area);
+
+    let faq_block = Block::bordered().title("FAQ");
+    frame.render_widget(&faq_block, div[1]);
+
+    let inner_area = faq_block.inner(div[1]);
+    frame.render_widget(get_faq_list(), inner_area);
 }
 
 fn get_big_faq() -> impl Widget {
@@ -21,4 +46,35 @@ fn get_big_faq() -> impl Widget {
         .style(Style::new().yellow())
         .lines(vec!["FAQ".light_red().into(), "~~~".red().into()])
         .build()
+}
+
+fn get_project_ideas_text() -> impl Widget {
+    let content = [
+        "• A HTTP server from scratch",
+        "• A bittorrent client",
+        "• Reinvent your favourite database (like redis, postgres, etc.)",
+        "• A programming language!!!",
+        "• An OS kernel (if you're brave enough)",
+        "• Anything else you can think of! The possibilities are endless!",
+    ]
+    .join("\n\n");
+
+    Paragraph::new(content)
+        .style(Style::new().light_cyan().bold())
+        .wrap(Wrap { trim: true })
+}
+
+fn get_faq_list() -> impl Widget {
+    let items = [
+        "Q: Do I need to be an expert to follow do this?",
+        "A: Prior coding experience would definitely be useful as this is targeted towards intermediate/experienced programmers\n",
+        "Q: Can I use AI?",
+        "A: You may use tab completions but use of AI editors like cursor for code generation is not allowed. The goal is to learn by doing, and using AI to generate code would defeat that purpose.\n",
+        "Q: Do I need to track hours with hackatime?",
+        "A: Yes",
+    ].join("\n\n");
+
+    Paragraph::new(items)
+        .style(Style::new().light_magenta().bold())
+        .wrap(Wrap { trim: true })
 }
