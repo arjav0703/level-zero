@@ -98,7 +98,7 @@ pub fn draw_horizontal_barchart(frame: &mut Frame, app: &mut App, area: Rect) {
 //     wave::{Modulator, Oscillator, WaveLayer},
 // };
 //
-use tachyonfx::{Interpolation, Motion, fx};
+use tachyonfx::{fx, Interpolation, Motion};
 
 pub fn get_wave_fx(content_area: Rect) -> tachyonfx::Effect {
     // let style = Style::default()

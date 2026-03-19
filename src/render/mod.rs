@@ -24,7 +24,11 @@ impl App {
 
         let vert_div = Layout::new(
             Direction::Vertical,
-            [Constraint::Percentage(20), Constraint::Percentage(50)],
+            [
+                Constraint::Percentage(20),
+                Constraint::Percentage(45),
+                Constraint::Percentage(35),
+            ],
         )
         .split(sections[0]);
 
@@ -45,9 +49,9 @@ impl App {
         let hero_vertical = Layout::new(
             Direction::Vertical,
             [
-                Constraint::Percentage(15),
-                Constraint::Percentage(60),
-                Constraint::Percentage(15),
+                Constraint::Percentage(10),
+                Constraint::Percentage(80),
+                Constraint::Percentage(10),
             ],
         )
         .split(horizontal_div[1]);
@@ -55,6 +59,23 @@ impl App {
         frame.render_widget(hero_text(), hero_vertical[1]);
 
         draw_horizontal_barchart(frame, self, horizontal_div[2]);
+
+        let info_block = Block::bordered().title("INFO");
+
+        frame.render_widget(&info_block, vert_div[2]);
+
+        let inner_area = info_block.inner(vert_div[2]);
+        let info_vertical = Layout::new(
+            Direction::Vertical,
+            [
+                Constraint::Percentage(25),
+                Constraint::Percentage(50),
+                Constraint::Percentage(25),
+            ],
+        )
+        .split(inner_area);
+
+        frame.render_widget(info_text(), info_vertical[1]);
 
         if effect.running() {
             frame.render_effect(effect, frame.area(), Duration::from_millis(100));
@@ -71,6 +92,24 @@ fn hero_text() -> impl Widget {
             "level".light_red().into(),
             "zero".white().into(),
             "~~~~~".light_blue().into(),
+        ])
+        .build()
+}
+
+fn info_text() -> impl Widget {
+    BigText::builder()
+        .alignment(ratzilla::ratatui::layout::HorizontalAlignment::Center)
+        .pixel_size(PixelSize::Quadrant)
+        .style(Style::new().yellow())
+        .lines(vec![
+            "You ship -> A low level systems programming Project"
+                .light_cyan()
+                .into(),
+            "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
+                .cyan()
+                .into(),
+            "We Ship -> Cool computer hardware".light_green().into(),
+            "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~".green().into(),
         ])
         .build()
 }
