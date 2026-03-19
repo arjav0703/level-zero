@@ -1,24 +1,70 @@
 use ratzilla::{
     WebGl2Backend, WebRenderer,
     event::KeyCode,
-    ratatui::{
-        Terminal,
-        layout::Rect,
-        style::{Color, Style},
-    },
+    ratatui::{Terminal, layout::Rect},
 };
-use tachyonfx::{
-    ColorSpace::Rgb,
-    EffectTimer, Interpolation, Motion,
-    fx::{self, EvolveSymbolSet},
-    pattern::WavePattern,
-    wave::{Modulator, Oscillator, WaveLayer},
-};
-#[derive(Debug, Clone, Default)]
-pub struct App {}
+
+mod utils;
+
+#[derive(Clone)]
+pub struct App {
+    /// pre-processing
+    pub progress1: f64,
+
+    // compiling
+    pub progress2: f64,
+
+    pub sparkline: Signal<RandomSignal>,
+}
+
+impl Default for App {
+    fn default() -> Self {
+        Self {
+            progress1: 0.0,
+            progress2: 0.0,
+            sparkline: Signal {
+                source: RandomSignal::new(0, 100),
+                points: Vec::new(),
+                tick_rate: 5,
+            },
+        }
+    }
+}
 
 impl App {
-    pub fn handle_key_event(&mut self, key_code: KeyCode) {}
+    pub fn on_tick(&mut self) {
+        if self.progress2 >= 0.9 {
+            self.progress1 = 0.0;
+            self.progress2 = 0.0;
+        }
+
+        self.progress1 += 0.01;
+        if self.progress1 >= 1.0 {
+            self.progress1 = 1.0;
+            self.progress2 += 0.004;
+        }
+
+        if self.progress1 >= 1.0 {
+            // Ensure we have enough data points to fill the screen width
+            if self.sparkline.points.len() < 200 {
+                self.sparkline
+                    .points
+                    .extend(self.sparkline.source.by_ref().take(10));
+            } else {
+                // Normal scrolling behavior
+                self.sparkline.on_tick();
+            }
+        }
+    }
+}
+
+use crate::{
+    app::utils::{RandomSignal, Signal},
+    render::get_wave_fx,
+};
+
+impl App {
+    pub fn handle_key_event(&mut self, _key_code: KeyCode) {}
 
     pub fn run(mut self, terminal: Terminal<WebGl2Backend>) {
         let mut effect = get_wave_fx(Rect::new(0, 0, 1920, 1000));
@@ -29,37 +75,8 @@ impl App {
         });
 
         terminal.draw_web(move |f| {
+            self.on_tick();
             self.render(f, &mut effect);
         });
     }
-}
-
-fn get_wave_fx(content_area: Rect) -> tachyonfx::Effect {
-    let style = Style::default()
-        .fg(Color::from_u32(0x32302F)) // content area bg
-        .bg(Color::from_u32(0x1D2021)); // screen area bg
-
-    let timer = EffectTimer::from_ms(750, Interpolation::Linear);
-
-    let wave_a = Oscillator::sin(0.0, 0.3, -1.0);
-    let wave_b = Oscillator::cos(0.2, 0.1, 0.3)
-        .modulated_by(Modulator::sawtooth(-0.5, 0.2, -0.5).on_amplitude());
-
-    let wave_layer = WaveLayer::new(wave_a).average(wave_b);
-    let p = WavePattern::new(wave_layer);
-
-    fx::prolong_start(
-        500,
-        fx::parallel(&[
-            // organically evolving into content
-            fx::evolve_into((EvolveSymbolSet::BlocksHorizontal, style), 1200)
-                .with_pattern(p.clone()),
-            // coalesce foreground symbols using the same pattern
-            fx::coalesce(timer).with_pattern(p),
-            // start faded to remove rough corners
-            fx::fade_from(Color::from_u32(0x1D2021), Color::from_u32(0x1D2021), 500)
-                .with_color_space(Rgb),
-        ])
-        .with_area(content_area),
-    )
 }
