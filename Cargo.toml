@@ -4,6 +4,7 @@ version = "0.1.0"
 edition = "2024"
 
 [dependencies]
+rand = { version = "0.10.0", default-features = false }
 ratzilla = "0.3.0"
 tachyonfx = { version = "0.25.0", default-features = false, features = ["wasm"] }
 tui-big-text = "0.8.2"
