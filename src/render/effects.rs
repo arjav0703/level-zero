@@ -42,16 +42,22 @@ pub fn draw_gauges(frame: &mut Frame, app: &mut App, area: Rect) {
     frame.render_widget(line_gauge, chunks[2]);
 }
 
-use tui_piechart::{PieChart, PieSlice};
+use tui_piechart::{LegendPosition, PieChart, PieSlice};
 
 pub fn draw_pie_chart(frame: &mut Frame, app: &mut App, area: Rect) {
     let slices = vec![
-        PieSlice::new("Test Failures", app.pie_chart_data.val1, Color::LightRed),
-        PieSlice::new("Warning", app.pie_chart_data.val2, Color::LightBlue),
-        PieSlice::new("Test Passed", app.pie_chart_data.val3, Color::LightGreen),
+        PieSlice::new("Failed", app.pie_chart_data.val1, Color::LightRed),
+        PieSlice::new("Partial", app.pie_chart_data.val2, Color::LightMagenta),
+        PieSlice::new("Passed", app.pie_chart_data.val3, Color::LightGreen),
     ];
 
-    let piechart = PieChart::new(slices);
+    let block = Block::bordered()
+        .title("Test Results")
+        .border_type(ratzilla::ratatui::widgets::BorderType::Rounded);
+
+    let piechart = PieChart::new(slices)
+        .legend_position(LegendPosition::Right)
+        .block(block);
 
     frame.render_widget(piechart, area);
 
