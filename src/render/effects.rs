@@ -42,6 +42,24 @@ pub fn draw_gauges(frame: &mut Frame, app: &mut App, area: Rect) {
     frame.render_widget(line_gauge, chunks[2]);
 }
 
+use tui_piechart::{PieChart, PieSlice};
+
+pub fn draw_pie_chart(frame: &mut Frame, app: &mut App, area: Rect) {
+    let slices = vec![
+        PieSlice::new("Test Failures", app.pie_chart_data.val1, Color::LightRed),
+        PieSlice::new("Warning", app.pie_chart_data.val2, Color::LightBlue),
+        PieSlice::new("Test Passed", app.pie_chart_data.val3, Color::LightGreen),
+    ];
+
+    let piechart = PieChart::new(slices);
+
+    frame.render_widget(piechart, area);
+
+    app.pie_chart_data.val1 = (app.pie_chart_data.val1 + 0.5) % 100.0;
+    app.pie_chart_data.val2 = (app.pie_chart_data.val2 + 0.3) % 100.0;
+    app.pie_chart_data.val3 = (app.pie_chart_data.val3 + 0.2) % 100.0;
+}
+
 // use tachyonfx::{
 //     ColorSpace::Rgb,
 //     EffectTimer, Interpolation, Motion,

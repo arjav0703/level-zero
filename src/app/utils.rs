@@ -87,3 +87,20 @@ impl Iterator for SinSignal {
         Some(point)
     }
 }
+
+#[derive(Clone)]
+pub struct PieChartData {
+    pub val1: f64,
+    pub val2: f64,
+    pub val3: f64,
+}
+
+impl Default for PieChartData {
+    fn default() -> Self {
+        Self {
+            val1: 33.3,
+            val2: 33.3,
+            val3: 33.3,
+        }
+    }
+}

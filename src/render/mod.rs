@@ -22,17 +22,28 @@ impl App {
         )
         .split(frame.area());
 
-        let chunks = Layout::new(
+        let vert_div = Layout::new(
             Direction::Vertical,
             [Constraint::Percentage(20), Constraint::Percentage(50)],
         )
         .split(sections[0]);
 
-        draw_gauges(frame, self, chunks[0]);
-        frame.render_widget(hero_text(), chunks[1]);
+        draw_gauges(frame, self, vert_div[0]);
+
+        let horizontal_div = Layout::new(
+            Direction::Horizontal,
+            [
+                Constraint::Percentage(33),
+                Constraint::Percentage(33),
+                Constraint::Percentage(33),
+            ],
+        )
+        .split(vert_div[1]);
+        draw_pie_chart(frame, self, horizontal_div[0]);
+        frame.render_widget(hero_text(), horizontal_div[1]);
 
         if effect.running() {
-            frame.render_effect(effect, chunks[0], Duration::from_millis(100));
+            frame.render_effect(effect, vert_div[0], Duration::from_millis(100));
         }
     }
 }

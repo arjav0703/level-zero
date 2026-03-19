@@ -15,6 +15,8 @@ pub struct App {
     pub progress2: f64,
 
     pub sparkline: Signal<RandomSignal>,
+
+    pub pie_chart_data: PieChartData,
 }
 
 impl Default for App {
@@ -27,6 +29,7 @@ impl Default for App {
                 points: Vec::new(),
                 tick_rate: 5,
             },
+            pie_chart_data: PieChartData::default(),
         }
     }
 }
@@ -59,7 +62,7 @@ impl App {
 }
 
 use crate::{
-    app::utils::{RandomSignal, Signal},
+    app::utils::{PieChartData, RandomSignal, Signal},
     render::get_wave_fx,
 };
 
