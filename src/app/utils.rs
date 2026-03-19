@@ -104,3 +104,34 @@ impl Default for PieChartData {
         }
     }
 }
+
+#[derive(Clone)]
+pub struct BarChartData {
+    pub cpu: u64,
+    pub gpu: u64,
+    pub ram: u64,
+    pub io: u64,
+    pub network: u64,
+}
+
+impl Default for BarChartData {
+    fn default() -> Self {
+        Self {
+            cpu: 30,
+            gpu: 25,
+            ram: 20,
+            io: 15,
+            network: 10,
+        }
+    }
+}
+
+impl BarChartData {
+    pub fn on_tick(&mut self) {
+        self.cpu = (self.cpu + 1) % 100;
+        self.gpu = (self.gpu + 2) % 100;
+        self.ram = (self.ram + 3) % 100;
+        self.io = (self.io + 4) % 100;
+        self.network = (self.network + 5) % 100;
+    }
+}

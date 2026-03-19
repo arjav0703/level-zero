@@ -66,6 +66,30 @@ pub fn draw_pie_chart(frame: &mut Frame, app: &mut App, area: Rect) {
     app.pie_chart_data.val3 = (app.pie_chart_data.val3 + 0.2) % 100.0;
 }
 
+use ratzilla::ratatui::widgets::{Bar, BarChart, Padding};
+
+pub fn draw_horizontal_barchart(frame: &mut Frame, app: &mut App, area: Rect) {
+    let bars = vec![
+        Bar::with_label("CPU", app.bar_chart_data.cpu).light_red(),
+        Bar::with_label("GPU", app.bar_chart_data.gpu).light_magenta(),
+        Bar::with_label("RAM", app.bar_chart_data.ram).light_blue(),
+        Bar::with_label("I/O", app.bar_chart_data.io).light_green(),
+        Bar::with_label("NETWORK", app.bar_chart_data.network).light_yellow(),
+    ];
+
+    let block = Block::bordered()
+        .title("Resource Usage")
+        .border_type(ratzilla::ratatui::widgets::BorderType::LightDoubleDashed)
+        .padding(Padding::new(2, 2, 2, 2));
+    // .border_type(ratzilla::ratatui::widgets::BorderType::Rounded);
+
+    let chart = BarChart::horizontal(bars)
+        .bar_width(3)
+        .bar_gap(2)
+        .block(block);
+    frame.render_widget(chart, area);
+}
+
 // use tachyonfx::{
 //     ColorSpace::Rgb,
 //     EffectTimer, Interpolation, Motion,

@@ -17,6 +17,7 @@ pub struct App {
     pub sparkline: Signal<RandomSignal>,
 
     pub pie_chart_data: PieChartData,
+    pub bar_chart_data: BarChartData,
 }
 
 impl Default for App {
@@ -30,6 +31,7 @@ impl Default for App {
                 tick_rate: 5,
             },
             pie_chart_data: PieChartData::default(),
+            bar_chart_data: BarChartData::default(),
         }
     }
 }
@@ -47,6 +49,8 @@ impl App {
             self.progress2 += 0.004;
         }
 
+        self.bar_chart_data.on_tick();
+
         if self.progress1 >= 1.0 {
             // Ensure we have enough data points to fill the screen width
             if self.sparkline.points.len() < 200 {
@@ -62,7 +66,7 @@ impl App {
 }
 
 use crate::{
-    app::utils::{PieChartData, RandomSignal, Signal},
+    app::utils::{BarChartData, PieChartData, RandomSignal, Signal},
     render::get_wave_fx,
 };
 

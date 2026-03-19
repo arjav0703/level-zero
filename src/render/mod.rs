@@ -39,8 +39,12 @@ impl App {
             ],
         )
         .split(vert_div[1]);
+
         draw_pie_chart(frame, self, horizontal_div[0]);
+
         frame.render_widget(hero_text(), horizontal_div[1]);
+
+        draw_horizontal_barchart(frame, self, horizontal_div[2]);
 
         if effect.running() {
             frame.render_effect(effect, vert_div[0], Duration::from_millis(100));
