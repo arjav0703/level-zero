@@ -33,16 +33,26 @@ impl App {
         let horizontal_div = Layout::new(
             Direction::Horizontal,
             [
-                Constraint::Percentage(33),
-                Constraint::Percentage(33),
-                Constraint::Percentage(33),
+                Constraint::Percentage(32),
+                Constraint::Min(20),
+                Constraint::Percentage(30),
             ],
         )
         .split(vert_div[1]);
 
         draw_pie_chart(frame, self, horizontal_div[0]);
 
-        frame.render_widget(hero_text(), horizontal_div[1]);
+        let hero_vertical = Layout::new(
+            Direction::Vertical,
+            [
+                Constraint::Percentage(15),
+                Constraint::Percentage(60),
+                Constraint::Percentage(15),
+            ],
+        )
+        .split(horizontal_div[1]);
+
+        frame.render_widget(hero_text(), hero_vertical[1]);
 
         draw_horizontal_barchart(frame, self, horizontal_div[2]);
 
