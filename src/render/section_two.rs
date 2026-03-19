@@ -8,8 +8,8 @@ pub fn render_section_two(area: Rect, app: &mut App, frame: &mut Frame) {
         [
             Constraint::Percentage(10),
             Constraint::Percentage(20),
-            Constraint::Percentage(65),
-            Constraint::Percentage(5),
+            Constraint::Percentage(45),
+            Constraint::Percentage(25),
         ],
     )
     .split(area);
@@ -26,17 +26,23 @@ pub fn render_section_two(area: Rect, app: &mut App, frame: &mut Frame) {
     )
     .split(vert_div[2]);
 
-    let project_block = Block::bordered().title("What can I build?");
+    let project_block = bordered_block().title("What can I build?");
     frame.render_widget(&project_block, div[0]);
 
     let inner_area = project_block.inner(div[0]);
     frame.render_widget(get_project_ideas_text(), inner_area);
 
-    let faq_block = Block::bordered().title("FAQ");
+    let faq_block = bordered_block().title("FAQ");
     frame.render_widget(&faq_block, div[1]);
 
     let inner_area = faq_block.inner(div[1]);
     frame.render_widget(get_faq_list(), inner_area);
+
+    let ws_block = bordered_block().title("What do I get?");
+    frame.render_widget(&ws_block, div[2]);
+
+    let inner_area = ws_block.inner(div[2]);
+    frame.render_widget(get_ws_items(), inner_area);
 }
 
 fn get_big_faq() -> impl Widget {
@@ -77,4 +83,23 @@ fn get_faq_list() -> impl Widget {
     Paragraph::new(items)
         .style(Style::new().light_magenta().bold())
         .wrap(Wrap { trim: true })
+}
+
+fn get_ws_items() -> impl Widget {
+    let items = [
+        "-> RAM grant 🤑",
+        "-> CPU grant ",
+        "-> Laptop grant 💻",
+        "-> Cool swag 👕",
+        "-> More stuff to be announced!",
+    ]
+    .join("\n\n");
+
+    Paragraph::new(items)
+        .style(Style::new().light_green().bold())
+        .wrap(Wrap { trim: true })
+}
+
+fn bordered_block() -> Block<'static> {
+    Block::bordered().border_type(ratzilla::ratatui::widgets::BorderType::Rounded)
 }
