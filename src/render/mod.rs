@@ -15,14 +15,21 @@ pub use effects::*;
 impl App {
     pub fn render(&mut self, frame: &mut Frame, effect: &mut Effect) {
         Clear.render(frame.area(), frame.buffer_mut());
-        let chunks = Layout::new(
+
+        let sections = Layout::new(
             Direction::Vertical,
-            [Constraint::Percentage(10), Constraint::Percentage(20)],
+            [Constraint::Percentage(50), Constraint::Percentage(50)],
         )
         .split(frame.area());
 
-        frame.render_widget(hero_text(), chunks[1]);
+        let chunks = Layout::new(
+            Direction::Vertical,
+            [Constraint::Percentage(20), Constraint::Percentage(50)],
+        )
+        .split(sections[0]);
+
         draw_gauges(frame, self, chunks[0]);
+        frame.render_widget(hero_text(), chunks[1]);
 
         if effect.running() {
             frame.render_effect(effect, chunks[0], Duration::from_millis(100));
