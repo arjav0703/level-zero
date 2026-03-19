@@ -1,5 +1,3 @@
-use crate::render::section_one::render_section_one;
-
 use super::App;
 use ratzilla::ratatui::{
     Frame,
@@ -14,6 +12,10 @@ use tui_big_text::{BigText, PixelSize};
 mod effects;
 pub use effects::*;
 mod section_one;
+use section_one::render_section_one;
+
+mod section_two;
+use section_two::render_section_two;
 
 impl App {
     pub fn render(&mut self, frame: &mut Frame, effect: &mut Effect) {
@@ -26,6 +28,7 @@ impl App {
         .split(frame.area());
 
         render_section_one(sections[0], frame, self);
+        render_section_two(sections[1], self, frame);
 
         if effect.running() {
             frame.render_effect(effect, frame.area(), Duration::from_millis(100));
