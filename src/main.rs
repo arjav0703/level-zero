@@ -19,14 +19,14 @@ fn main() -> io::Result<()> {
     let backend_options = WebGl2BackendOptions::new()
         .font_atlas_config(ratzilla::FontAtlasConfig::dynamic(
             &["Hack Nerd Font Mono", "Hack", "Fira Code"],
-            17.0,
+            16.0,
         ))
         // .font_atlas(FontAtlasData {
         //     font_name: "Arial".into(),
         //     font_size: 60.0,
         //     ..Default::default()
         // })
-        .size((width, height * 2)); // 200vh = 2 * viewport height
+        .size((width, (height * 2) + 600)); // 200vh = 2 * viewport height
     let backend = WebGl2Backend::new_with_options(backend_options)?;
     let terminal = Terminal::new(backend)?;
 

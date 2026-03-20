@@ -4,8 +4,8 @@ pub fn render_section_one(area: Rect, frame: &mut Frame, app: &mut App) {
     let vert_div = Layout::new(
         Direction::Vertical,
         [
-            Constraint::Percentage(20),
-            Constraint::Percentage(45),
+            Constraint::Min(10),
+            Constraint::Percentage(55),
             Constraint::Percentage(35),
         ],
     )
@@ -17,7 +17,7 @@ pub fn render_section_one(area: Rect, frame: &mut Frame, app: &mut App) {
         Direction::Horizontal,
         [
             Constraint::Percentage(32),
-            Constraint::Min(20),
+            Constraint::Min(50),
             Constraint::Percentage(30),
         ],
     )

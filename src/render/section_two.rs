@@ -8,8 +8,8 @@ pub fn render_section_two(area: Rect, app: &mut App, frame: &mut Frame) {
         [
             Constraint::Percentage(10),
             Constraint::Percentage(20),
-            Constraint::Percentage(60),
-            Constraint::Percentage(10),
+            Constraint::Percentage(65),
+            Constraint::Percentage(5),
         ],
     )
     .split(area);
