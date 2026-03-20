@@ -6,10 +6,10 @@ pub fn draw_gauges(frame: &mut Frame, app: &mut App, area: Rect) {
         Constraint::Length(3),
         Constraint::Length(2),
     ])
-    .margin(2)
+    .margin(1)
     .split(area);
     let block = Block::bordered()
-        .title("Cooking a new project")
+        // .title("Cooking a new project")
         .border_type(ratzilla::ratatui::widgets::BorderType::Rounded);
     frame.render_widget(block, area);
 
@@ -17,10 +17,7 @@ pub fn draw_gauges(frame: &mut Frame, app: &mut App, area: Rect) {
     let gauge = Gauge::default()
         .block(Block::new().title("Pre Processing:"))
         .gauge_style(
-            Style::default()
-                .fg(Color::LightYellow)
-                .bg(Color::Black)
-                .add_modifier(Modifier::ITALIC | Modifier::BOLD),
+            Style::default().fg(Color::LightYellow).bg(Color::Black), // .add_modifier(Modifier::ITALIC | Modifier::BOLD),
         )
         .use_unicode(true)
         .label(label)
@@ -79,8 +76,8 @@ pub fn draw_horizontal_barchart(frame: &mut Frame, app: &mut App, area: Rect) {
 
     let block = Block::bordered()
         .title("Resource Usage")
-        .border_type(ratzilla::ratatui::widgets::BorderType::LightDoubleDashed)
-        .padding(Padding::new(2, 2, 2, 2));
+        .border_type(ratzilla::ratatui::widgets::BorderType::LightDoubleDashed);
+    // .padding(Padding::new(2, 2, 2, 2));
     // .border_type(ratzilla::ratatui::widgets::BorderType::Rounded);
 
     let chart = BarChart::horizontal(bars)
@@ -98,7 +95,7 @@ pub fn draw_horizontal_barchart(frame: &mut Frame, app: &mut App, area: Rect) {
 //     wave::{Modulator, Oscillator, WaveLayer},
 // };
 //
-use tachyonfx::{fx, Interpolation, Motion};
+use tachyonfx::{Interpolation, Motion, fx};
 
 pub fn get_wave_fx(content_area: Rect) -> tachyonfx::Effect {
     // let style = Style::default()

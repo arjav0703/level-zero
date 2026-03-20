@@ -28,9 +28,9 @@ pub fn render_section_one(area: Rect, frame: &mut Frame, app: &mut App) {
     let hero_vertical = Layout::new(
         Direction::Vertical,
         [
-            Constraint::Percentage(10),
-            Constraint::Percentage(80),
-            Constraint::Percentage(10),
+            Constraint::Percentage(5),
+            Constraint::Percentage(90),
+            Constraint::Percentage(5),
         ],
     )
     .split(horizontal_div[1]);
@@ -44,17 +44,17 @@ pub fn render_section_one(area: Rect, frame: &mut Frame, app: &mut App) {
     frame.render_widget(&info_block, vert_div[2]);
 
     let inner_area = info_block.inner(vert_div[2]);
-    let info_vertical = Layout::new(
-        Direction::Vertical,
-        [
-            Constraint::Percentage(15),
-            Constraint::Percentage(70),
-            Constraint::Percentage(15),
-        ],
-    )
-    .split(inner_area);
+    // let info_vertical = Layout::new(
+    //     Direction::Vertical,
+    //     [
+    //         Constraint::Percentage(15),
+    //         Constraint::Percentage(70),
+    //         Constraint::Percentage(15),
+    //     ],
+    // )
+    // .split(inner_area);
 
-    frame.render_widget(info_text(), info_vertical[1]);
+    frame.render_widget(info_text(), inner_area);
 }
 
 fn hero_text() -> impl Widget {
@@ -76,12 +76,8 @@ fn info_text() -> impl Widget {
         .pixel_size(PixelSize::Quadrant)
         .style(Style::new().yellow())
         .lines(vec![
-            "YS -> A low level systems programming project"
-                .light_cyan()
-                .into(),
-            "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
-                .cyan()
-                .into(),
+            "YS -> A systems programming project".light_cyan().into(),
+            "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~".cyan().into(),
             "WS -> Cool computer hardware".light_green().into(),
             "~~~~~~~~~~~~~~~~~~~~~~~~~~~~".green().into(),
         ])

@@ -77,9 +77,9 @@ impl App {
         let mut effect = get_wave_fx(Rect::new(0, 0, 1920, 1000));
 
         let mut cloned = self.clone();
-        terminal.on_key_event(move |key_event| {
-            cloned.handle_key_event(key_event.code);
-        });
+        // terminal.on_key_event(move |key_event| {
+        //     cloned.handle_key_event(key_event.code);
+        // });
 
         terminal.draw_web(move |f| {
             self.on_tick();
