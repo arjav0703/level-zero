@@ -16,15 +16,17 @@ pub fn render_section_two(area: Rect, app: &mut App, frame: &mut Frame) {
 
     frame.render_widget(get_big_faq(), vert_div[1]);
 
+    let margin = vert_div[2].inner(Margin::new(5, 2));
+
     let div = Layout::new(
-        Direction::Horizontal,
+        Direction::Vertical,
         [
-            Constraint::Percentage(33),
-            Constraint::Percentage(34),
-            Constraint::Percentage(33),
+            Constraint::Percentage(27),
+            Constraint::Percentage(27),
+            Constraint::Percentage(46),
         ],
     )
-    .split(vert_div[2]);
+    .split(margin);
 
     let project_block = bordered_block().title("What can I build?");
     frame.render_widget(&project_block, div[0]);
@@ -32,17 +34,17 @@ pub fn render_section_two(area: Rect, app: &mut App, frame: &mut Frame) {
     let inner_area = project_block.inner(div[0]);
     frame.render_widget(get_project_ideas_text(), inner_area);
 
-    let faq_block = bordered_block().title("FAQ");
-    frame.render_widget(&faq_block, div[1]);
-
-    let inner_area = faq_block.inner(div[1]);
-    frame.render_widget(get_faq_list(), inner_area);
-
     let ws_block = bordered_block().title("What do I get?");
-    frame.render_widget(&ws_block, div[2]);
+    frame.render_widget(&ws_block, div[1]);
 
-    let inner_area = ws_block.inner(div[2]);
+    let inner_area = ws_block.inner(div[1]);
     frame.render_widget(get_ws_items(), inner_area);
+
+    let faq_block = bordered_block().title("FAQ");
+    frame.render_widget(&faq_block, div[2]);
+
+    let inner_area = faq_block.inner(div[2]);
+    frame.render_widget(get_faq_list(), inner_area);
 }
 
 fn get_big_faq() -> impl Widget {

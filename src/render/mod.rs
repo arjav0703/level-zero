@@ -23,7 +23,7 @@ impl App {
 
         let sections = Layout::new(
             Direction::Vertical,
-            [Constraint::Percentage(50), Constraint::Percentage(50)],
+            [Constraint::Percentage(40), Constraint::Percentage(60)],
         )
         .split(frame.area());
 
