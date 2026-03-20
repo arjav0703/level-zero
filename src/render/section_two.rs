@@ -8,8 +8,8 @@ pub fn render_section_two(area: Rect, app: &mut App, frame: &mut Frame) {
         [
             Constraint::Percentage(10),
             Constraint::Percentage(20),
-            Constraint::Percentage(45),
-            Constraint::Percentage(25),
+            Constraint::Percentage(60),
+            Constraint::Percentage(10),
         ],
     )
     .split(area);
@@ -72,6 +72,8 @@ fn get_project_ideas_text() -> impl Widget {
 
 fn get_faq_list() -> impl Widget {
     let items = [
+        "Q: Who can participate?",
+        "A: If you're a teenager between the age of 13 and 18, you are eligible to participate!\n",
         "Q: Do I need to be an expert to follow do this?",
         "A: Prior coding experience would definitely be useful as this is targeted towards intermediate/experienced programmers\n",
         "Q: Can I use AI?",
