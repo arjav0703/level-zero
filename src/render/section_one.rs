@@ -1,3 +1,5 @@
+use ratzilla::ratatui::widgets::Paragraph;
+
 use super::*;
 
 pub fn render_section_one(area: Rect, frame: &mut Frame, app: &mut App) {
@@ -54,7 +56,11 @@ pub fn render_section_one(area: Rect, frame: &mut Frame, app: &mut App) {
     // )
     // .split(inner_area);
 
-    frame.render_widget(info_text(), inner_area);
+    if inner_area.width < 100 {
+        frame.render_widget(info_text_mobile(), inner_area);
+    } else {
+        frame.render_widget(info_text(), inner_area);
+    }
 }
 
 fn hero_text() -> impl Widget {
@@ -82,4 +88,13 @@ fn info_text() -> impl Widget {
             "~~~~~~~~~~~~~~~~~~~~~~~~~~~~".green().into(),
         ])
         .build()
+}
+
+fn info_text_mobile() -> impl Widget {
+    Paragraph::new(vec![
+        "YS -> A systems programming project".light_cyan().into(),
+        "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~".cyan().into(),
+        "WS -> Cool computer hardware".light_green().into(),
+        "~~~~~~~~~~~~~~~~~~~~~~~~~~~~".green().into(),
+    ])
 }

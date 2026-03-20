@@ -16,7 +16,8 @@ pub fn render_section_two(area: Rect, app: &mut App, frame: &mut Frame) {
 
     frame.render_widget(get_big_faq(), vert_div[1]);
 
-    let margin = vert_div[2].inner(Margin::new(20, 2));
+    let horizontal_margin = if vert_div[2].width < 100 { 2 } else { 20 };
+    let margin = vert_div[2].inner(Margin::new(horizontal_margin, 2));
 
     let div = Layout::new(
         Direction::Vertical,
