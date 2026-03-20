@@ -31,6 +31,14 @@
       padding: 1rem;
       background-color: #121212;
       color: #888;
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity 0.3s ease, visibility 0.3s ease;
+    }
+
+    footer.show {
+      opacity: 1;
+      visibility: visible;
     }
   </style>
 </head>
@@ -41,6 +49,24 @@
     window.addEventListener("TrunkApplicationStarted", (_) => {
       // #[wasm_bindgen] functions are now bound to window.wasmBindings.*
       console.log("application initialized");
+    });
+
+    function handleScroll() {
+      const footer = document.querySelector('footer');
+      const scrollHeight = document.documentElement.scrollHeight;
+      const scrollTop = document.documentElement.scrollTop || document.body.scrollTop;
+      const clientHeight = document.documentElement.clientHeight;
+
+      if (scrollTop + clientHeight >= scrollHeight - 200) {
+        footer.classList.add('show');
+      } else {
+        footer.classList.remove('show');
+      }
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+      window.addEventListener('scroll', handleScroll);
+      handleScroll();
     });
   </script>
   <script>
